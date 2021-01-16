@@ -47,7 +47,17 @@
 3. `GO: Install/Update tools`で検索
 4. 全ツールを選択し、OKボタンを押下してインストール
 5. delveをインストール
-　* VCSの「実行とデバッグ」ボタンを押すとインストールされる
+   * VCSの「実行とデバッグ」ボタンを押すとインストールされる
+
+## ドキュメント
+
+### VCSのプラグイン
+
+* <https://code.visualstudio.com/docs/languages/go>
+
+### パッケージ
+
+* <https://golang.org/pkg/>
 
 ## アプリ
 
