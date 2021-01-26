@@ -51,8 +51,10 @@ func main() {
 	fmt.Println(xi, xf64, xs, xt, xf)
 	fmt.Printf("%T", xf64)
 
+	// 定数表示
 	fmt.Println(Pi, Username, Password)
 
+	// 一度に変数定義
 	var (
 		u8  uint8     = 255
 		i8  int8      = 127
@@ -61,13 +63,11 @@ func main() {
 	)
 	fmt.Println(u8, i8, f32, c64)
 	fmt.Printf("type=%T value=%v", u8, u8)
-
 	fmt.Println(string("Hello World"[0]))
 
 	var ss string = "Hello World"
 	fmt.Println(strings.Replace(ss, "H", "X", 1))
 	fmt.Println(ss)
-
 	fmt.Println("\"")
 	fmt.Println(`"`)
 
@@ -76,6 +76,7 @@ func main() {
 	i3, _ := strconv.Atoi(s3)
 	fmt.Printf("%T %v", i3, i3)
 
+	// 配列
 	var a4 [2]int
 	a4[0] = 100
 	a4[1] = 200
@@ -117,6 +118,7 @@ func main() {
 	fmt.Println(n63)
 	fmt.Println(n64)
 
+	// Map
 	n7 := map[string]int{"apple": 100, "banana": 200}
 	fmt.Println(n7)
 	fmt.Println(n7["apple"])
@@ -163,6 +165,19 @@ func main() {
 
 	s21 := []int{1, 2, 3}
 	foo(s21...)
+
+	// Q1. 以下の1.11をint型に変換して出力してください。
+	f22 := 1.11
+	i22 := int(f22)
+	fmt.Printf("f=%v(%T) i=%v(%T)\n", f22, f22, i22, i22)
+
+	// Q3. 以下のコードを実行した時に
+	// fmt.Printf("%T %v", m, m)
+	// 以下のような出力結果となるmを作成してください。
+	// map[string]int map[Mike:20 Nancy:24 Messi:30]
+
+	m := map[string]int{"Mike": 20, "Nancy": 24, "Messi": 30}
+	fmt.Printf("%T %v", m, m)
 }
 
 func add(x, y int) (int, int) {
