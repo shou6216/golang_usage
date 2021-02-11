@@ -1,8 +1,8 @@
-package main
+package syntax
 
 import "fmt"
 
-func main() {
+func Pointer() {
 	// ポインタ
 	n34 := 100
 	fmt.Println(n34)

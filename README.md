@@ -74,149 +74,30 @@
 > gofmt -w ${Goファイル} // 整形の提案通り反映
 ```
 
-### Tips
+## Tips
 
-#### 1つのプロジェクトでmainメソッドを持つGoファイルを複数扱う
+### 依存関係
 
-* フォルダ分ける
-* 同列に置くとエラー出る
+* <https://qiita.com/yokoto/items/13be66b6276e17d9f554>
+* Go Modules使う
+
+  ```sh
+  > cd ${プロジェクト名}
+  > go mod init ${プロジェクト名}
+  ```
+
+* go.modファイルができる
 
 ## アプリ
 
 ### 仕様
 
-* DQWの図鑑虹埋めとこころS取得状態を管理
-  * 図鑑の銅、銀やこころのS以下の状態は管理しない
+//TODO
 
 ### 画面構成
 
-* 一覧画面
-* 追加・更新画面
+//TODO
 
 ### ストレージ
 
-* SQLite
-
-## コマンド
-
-### プロジェクト作成
-
-```sh
-> flutter create アプリ名
-```
-
-### 実行可能デバイスの確認
-
-```sh
-> flutter devices
-```
-
-### 実行
-
-```sh
-> flutter run --device-id XXXXX(devicesで取得するID)
-```
-
-## Tips
-
-### 画面遷移
-
-* https://github.com/shou6216/flutter_usage/commit/da6e70e5145820a345cf5fbbc336a650d353724f
-
-#### 定義
-
-```dart
-return MaterialApp(
-    routes: <String, WidgetBuilder>{
-        '/home': (BuildContext context) => new MyHomePage(),
-        '/new': (BuildContext context) => new NewMonsterPage()
-});
-```
-
-* `routes`で画面定義名(/home、/new)と画面オブジェクトを定義します
-
-#### 遷移元画面に戻った後の処理
-
-```dart
-Navigator.of(context).pushNamed('/new').then((value) {
-                  if (value) {
-                    setState(() => {print('reloaded search results')});
-                  }
-                })
-```
-
-* (ボタン押下時など)↑のように遷移する。`pushNamed('/new')`の戻り値は`Future`になっていて、遷移先から戻ってきた後に処理をしたい場合は
-ここで行う。`value`は遷移先からの戻り値。
-
-#### 遷移元画面にパラメータを渡す
-
-```dart
-class _NewMonsterPageState extends State<NewMonsterPage> {
-
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () {
-          Navigator.of(context).pop(_shouldReload);
-          return Future.value(true);
-        },
-        child: Scaffold()
-    )
-  }
-```
-
-* `WillPopScope`で遷移元画面に戻る前のイベントを拾える。
-そこで、`Navigator.of(context).pop()`に返したいオブジェクトをセットする
-
-#### 遷移先にパラメータを渡す
-
-```dart
-Navigator.of(context).pushNamed('/new',arguments: monster)
-```
-
-* `arguments`に渡したいオブジェクトをセットする
-
-```dart
-final Monster monster = ModalRoute.of(context).settings.arguments;
-```
-
-* `settings.arguments`で受け取る
-
-### 非同期描画
-
-* https://github.com/shou6216/flutter_usage/commit/ea76dc0b0dd21a724bdc167d74c00dfd472cab59
-
-* `FutureBuilder`を使う
-
-### スクロール
-
-* https://github.com/shou6216/flutter_usage/commit/42b66d7f7847255ee2428932e874816e5b7e13ff
-
-* `SingleChildScrollView`を使う
-
-### 入力フォーム
-
-* https://github.com/shou6216/flutter_usage/commit/3cd0ad229b89fb30cee6b5388af4374f32c4c9e3
-
-* `TextFormField`を使う
-
-### SQLite
-
-* https://github.com/shou6216/flutter_usage/blob/master/pubspec.yaml#L26-L27
-  * `sqflite`使う
-  * `path`は、sqliteファイルを配置する場所を指定する際に利用する
-    * AndroidとiOSでフォルダ構成が異なる部分を吸収してくれる
-* https://github.com/shou6216/flutter_usage/blob/master/lib/database_helper.dart
-
-### 国際化
-
-* https://github.com/shou6216/flutter_usage/blob/master/pubspec.yaml#L28-L30
-* https://github.com/shou6216/flutter_usage/commit/6a3ba02eda6f8db1e7f54f8e8ce794f684c476e3
-
-## CodeMagic
-
-* アカウント作成
-  * GitHubアカウントで作れる
-* リポジトリを登録
-* `Start Build`するとビルド開始
-* 正常終了するとGitHubアカウントのメールアドレスにapkファイルが添付されたメールが届く
+//TODO

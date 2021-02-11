@@ -1,4 +1,4 @@
-package main
+package syntax
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func main() {
+func Statement() {
 	// for
 	sum := 1
 	for sum < 10 {

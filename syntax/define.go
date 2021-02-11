@@ -1,4 +1,4 @@
-package main
+package syntax
 
 import (
 	"fmt"
@@ -28,7 +28,7 @@ func bazz() {
 	fmt.Println("bazz world")
 }
 
-func main() {
+func Define() {
 	bazz()
 	//カンマ区切りで複数文字列表示
 	fmt.Println("Hello world", "hoge hoge", time.Now())
