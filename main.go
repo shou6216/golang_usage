@@ -6,14 +6,17 @@ import (
 )
 
 func main() {
-	fmt.Println("##### Define #####")
-	syntax.Define()
-	fmt.Println("##### Statement #####")
-	syntax.Statement()
-	fmt.Println("##### Struct #####")
-	syntax.Struct()
-	fmt.Println("##### Pointer #####")
-	syntax.Pointer()
-	fmt.Println("##### Goroutine #####")
-	syntax.Goroutine()
+	// fmt.Println("##### Define #####")
+	// syntax.Define()
+	// fmt.Println("##### Statement #####")
+	// syntax.Statement()
+	// fmt.Println("##### Struct #####")
+	// syntax.Struct()
+	// fmt.Println("##### Pointer #####")
+	// syntax.Pointer()
+	// fmt.Println("##### Goroutine #####")
+	// syntax.Goroutine()
+
+	fmt.Println("##### Package #####")
+	syntax.Package()
 }
