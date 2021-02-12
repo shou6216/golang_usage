@@ -83,6 +83,14 @@
 -v : 実行結果表示
 ./... : カレントディレクトリ以下全てからテストを探して実行する
 
+### godoc
+
+```sh
+> godoc -http=localhost:6060
+```
+
+<http://localhost:6060>でgodocを閲覧する
+
 ## Tips
 
 ### 依存関係
@@ -103,6 +111,13 @@
 * lib/math.goの単体テストは、lib/math_test.goとして作成する
 * `testing`をimportしてテスト用ライブラリを利用する
 * その他のテスティングフレームワークには、Ginkgo、Gomegaがある
+
+### ローカルドキュメント
+
+* 基本javadocのように記載する
+  * lib/math.go参照
+* godocのexamplesは、テストファイルで`Example関数名`で関数作るとそれが例になる
+  * lib/math_test.goのExampleAverageとExamplePerson_Say参照
 
 ## アプリ
 

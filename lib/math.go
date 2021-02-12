@@ -1,4 +1,9 @@
+/*
+custom lib
+*/
 package lib
+
+import "fmt"
 
 type Person struct {
 	// 変数も大文字にしないとPublicにならない
@@ -6,6 +11,11 @@ type Person struct {
 	Age  int
 }
 
+func (p *Person) Say() {
+	fmt.Println(p.Name)
+}
+
+// Average returns the average of a series of numbers
 func Average(s []int) int {
 	total := 0
 	for _, i := range s {
