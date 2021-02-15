@@ -16,7 +16,11 @@ func main() {
 	// syntax.Pointer()
 	// fmt.Println("##### Goroutine #####")
 	// syntax.Goroutine()
+	// fmt.Println("##### Package #####")
+	// syntax.Package()
+	// fmt.Println("##### Lib #####")
+	// syntax.Lib()
 
-	fmt.Println("##### Package #####")
-	syntax.Package()
+	fmt.Println("##### Network #####")
+	syntax.Network()
 }
