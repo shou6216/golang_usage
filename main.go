@@ -20,7 +20,9 @@ func main() {
 	// syntax.Package()
 	// fmt.Println("##### Lib #####")
 	// syntax.Lib()
+	// fmt.Println("##### Network #####")
+	// syntax.Network()
 
-	fmt.Println("##### Network #####")
-	syntax.Network()
+	fmt.Println("##### Third party #####")
+	syntax.ThirdParty()
 }

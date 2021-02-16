@@ -119,6 +119,10 @@
 * godocのexamplesは、テストファイルで`Example関数名`で関数作るとそれが例になる
   * lib/math_test.goのExampleAverageとExamplePerson_Say参照
 
+### 設定ファイル
+
+* TODO
+
 ## アプリ
 
 ### 仕様
