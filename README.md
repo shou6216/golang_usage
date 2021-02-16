@@ -123,6 +123,16 @@
 
 * TODO
 
+### SQLite
+
+* https://www.sqlite.org/download.html
+  * sqlite-tools-win32-x86-3340100.zip
+  * PATH通す
+* https://jmeubank.github.io/tdm-gcc/
+  * tdm-gcc-webdl.exe
+* go get github.com/mattn/go-sqlite3
+
+
 ## アプリ
 
 ### 仕様
