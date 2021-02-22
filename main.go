@@ -24,7 +24,9 @@ func main() {
 	// syntax.Network()
 	// fmt.Println("##### Third party #####")
 	// syntax.ThirdParty()
+	// fmt.Println("##### Database #####")
+	// syntax.Database()
 
-	fmt.Println("##### Database #####")
-	syntax.Database()
+	fmt.Println("##### Web #####")
+	syntax.Web()
 }
