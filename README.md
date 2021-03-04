@@ -137,7 +137,14 @@
 
 ### 仕様
 
-//TODO
+* 預金残高の管理
+* 残高推移を表すグラフを表示
+
+### ライブラリ
+
+* gotron
+  * node.js(npm)の環境が必要
+    * https://github.com/Equanox/gotron
 
 ### 画面構成
 
