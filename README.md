@@ -145,6 +145,8 @@
 * gotron
   * node.js(npm)の環境が必要
     * https://github.com/Equanox/gotron
+    * bin/gotron-builder
+      * プロジェクトの直下でexe起動しないとだめ
 
 ### 画面構成
 
