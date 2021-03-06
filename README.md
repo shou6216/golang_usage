@@ -149,6 +149,7 @@
       * プロジェクトの直下でexe起動しないとだめ
 * jQuery
   * http://tk2-207-13211.vs.sakura.ne.jp/2016/02/749/
+  * https://noitalog.tokyo/electron-jquery/#toc2
 
 ### 画面構成
 

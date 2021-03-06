@@ -7,11 +7,31 @@
 <body>
     <h1>預金残高</h1>
     <button id="event">イベント実行</button>
+    <script type="text/javascript">
+        window.nodeRequire = require;
+        delete window.module;
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script type="text/javascript">
+        let ws = new WebSocket("ws://localhost:" + global.backendPort + "/web/app/events");
+        console.log(ws);
+
+        ws.onmessage = (message) => {
+            let obj = JSON.parse(message.data);
+            
+            // event name
+            console.log(obj.event);
+
+            // event data
+            console.log(obj.AtrNameInFrontend);
+        }
+
         $(function(){
             $("#event").click(function() {
-                alert("AAA");
+                ws.send(JSON.stringify({
+                    "event": "event-name",
+                    "AtrNameInFrontend": "Hello World!",
+                }))
             })
         });    
     </script>
