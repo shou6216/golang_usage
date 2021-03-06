@@ -147,6 +147,8 @@
     * https://github.com/Equanox/gotron
     * bin/gotron-builder
       * プロジェクトの直下でexe起動しないとだめ
+* jQuery
+  * http://tk2-207-13211.vs.sakura.ne.jp/2016/02/749/
 
 ### 画面構成
 
