@@ -150,6 +150,9 @@
 * jQuery
   * http://tk2-207-13211.vs.sakura.ne.jp/2016/02/749/
   * https://noitalog.tokyo/electron-jquery/#toc2
+* i18n
+  * gotron自体に機能なし。
+  * 自分で辞書作って`window.send`でオブジェクト渡せばできるけどなんか違う
 
 ### 画面構成
 
