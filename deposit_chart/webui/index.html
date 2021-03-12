@@ -14,16 +14,19 @@
             <div class="col-sm-4 col-md-3">
                 <div class="card mx-2">
                     <div class="card-body">
-                        <form>
+                        <form id="deposit-form">
                             <div class="form-group">
-                                <label for="inputDate" data-i18n="inputDate"></label>
-                                <input type="date" class="form-control" id="inputDate">
+                                <label for="input-date" data-i18n="inputDate"></label>
+                                <input type="date" class="form-control" id="input-date" min="2010-01-01" max="2100-01-01" required>
+                                <div class="invalid-feedback" data-i18n="error.required"></div>
                             </div>
                             <div class="form-group">
-                                <label for="inputDeposit"  data-i18n="inputDeposit"></label>
-                                <input type="number" class="form-control" id="inputDeposit" placeholder="100000">
+                                <label for="input-deposit"  data-i18n="inputDeposit"></label>
+                                <input type="number" class="form-control" id="input-deposit" placeholder="100000" min="0" max="99999999" required>
+                                <div class="invalid-feedback" data-i18n="error.required"></div>
                             </div>
-                            <button type="button" class="btn btn-success btn-block" data-i18n="register"></button>
+                            <button id="register" type="button" class="btn btn-success btn-block" data-i18n="register"></button>
+                            <button id="clear" type="button" class="btn btn-outline-primary btn-block" data-i18n="clear"></button>
                         </form>
                     </div>
                 </div>
@@ -47,10 +50,10 @@
     <script type="text/javascript" src="js/jquery-i18next.min.js"></script>
     <script type="text/javascript" src="js/i18nextXHRBackend.min.js"></script>
     <script type="text/javascript">
-        const lang = 'ja';
+        const lang = "ja";
         i18next.use(i18nextXHRBackend).init({
             backend: {
-                loadPath: 'locales/{{lng}}/translation.json'
+                loadPath: "locales/{{lng}}/translation.json"
             },
             debug: false,
             defaultLng: lang,
@@ -58,74 +61,10 @@
             lng: lang,
         }, function (err, t) {
             jqueryI18next.init(i18next, $);
-            $('[data-i18n]').localize();
-        });
-
-        const context = jQuery("#chart");
-        const chart = new Chart(context, {
-            type: 'line',
-            data: {
-                labels: ['12/21', '1/21', '2/21', '3/21', '4/21', '5/21', '6/20'],
-                datasets: [{
-                    label: '2021年前半',
-                    data: [300000, 280000, 200000, 100000, 150000, 200000, 170000],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                },
-                {
-                    label: '2020年後半',
-                    data: [200000, 180000, 100000, 100000, 50000, 30000, 100000],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
+            $("[data-i18n]").localize();
         });
 
         let ws = new WebSocket("ws://localhost:" + global.backendPort + "/web/app/events");
-
         ws.onmessage = (message) => {
             let obj = JSON.parse(message.data);
             
@@ -137,12 +76,90 @@
         }
 
         $(function(){
-            $("#event").click(function() {
+            const context = jQuery("#chart");
+            const chart = new Chart(context, {
+                type: "line",
+                data: {
+                    labels: ['12/21', '1/21', '2/21', '3/21', '4/21', '5/21', '6/20'],
+                    datasets: [{
+                        label: '2021年前半',
+                        data: [300000, 280000, 200000, 100000, 150000, 200000, 170000],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    },
+                    {
+                        label: '2020年後半',
+                        data: [200000, 180000, 100000, 100000, 50000, 30000, 100000],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            $("#register").click(function() {
+                const form = $("#deposit-form")[0];
+                form.classList.add('was-validated');
+                if (form.checkValidity() === false){
+                    return;
+                }
+
                 ws.send(JSON.stringify({
-                    "event": "event-name",
-                    "AtrNameInFrontend": "Hello World!",
-                }))
-            })
+                    "event": "register",
+                    "params": {
+                        "date": $("#input-date").val(),
+                        "deposit": $("#input-deposit").val()
+                    }
+                }));
+            });
+
+            $("#clear").click(function(event) {
+                $("#deposit-form").remove('was-validated');
+                $("#input-date").val("");
+                $("#input-deposit").val("");
+            });
         });    
     </script>
 </body>

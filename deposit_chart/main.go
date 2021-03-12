@@ -28,7 +28,7 @@ func main() {
 
 	window.OpenDevTools()
 
-	window.On(&gotron.Event{Event: "event-name"}, func(bin []byte) {
+	window.On(&gotron.Event{Event: "register"}, func(bin []byte) {
 		// ここに処理を書いていく
 		// fmt.Println(bin)
 		b := []byte(bin)
