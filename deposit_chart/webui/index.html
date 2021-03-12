@@ -2,19 +2,38 @@
 <head>
     <!-- 手抜き CDNとインライン使いたいから -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https:;">
+    <title data-i18n="title"></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 </head>
 <body>
-    <h1>預金残高</h1>
-    <button id="event">イベント実行</button>
+    <div class="container">
+        <h1>預金残高</h1>
+        <button id="event" data-i18n="register">イベント実行</button>
+    </div>
     <script type="text/javascript">
         window.nodeRequire = require;
         delete window.module;
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/i18next.min.js"></script>
+    <script type="text/javascript" src="js/jquery-i18next.min.js"></script>
+    <script type="text/javascript" src="js/i18nextXHRBackend.min.js"></script>
     <script type="text/javascript">
+        const lang = 'ja';
+        i18next.use(i18nextXHRBackend).init({
+            backend: {
+                loadPath: 'locales/{{lng}}/translation.json'
+            },
+            debug: false,
+            defaultLng: lang,
+            fallbackLng: false,
+            lng: lang,
+        }, function (err, t) {
+            jqueryI18next.init(i18next, $);
+            $('[data-i18n]').localize();
+        });
+
         let ws = new WebSocket("ws://localhost:" + global.backendPort + "/web/app/events");
-        console.log(ws);
 
         ws.onmessage = (message) => {
             let obj = JSON.parse(message.data);

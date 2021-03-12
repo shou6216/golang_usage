@@ -153,7 +153,7 @@
 * i18n
   * gotron自体に機能なし。
   * 自分で辞書作って`window.send`でオブジェクト渡せばできるけどなんか違う
-
+  * https://www.i18next.com/overview/getting-started
 ### 画面構成
 
 //TODO
