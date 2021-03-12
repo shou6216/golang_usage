@@ -21,8 +21,8 @@
                                 <div class="invalid-feedback" data-i18n="error.required"></div>
                             </div>
                             <div class="form-group">
-                                <label for="input-deposit"  data-i18n="inputDeposit"></label>
-                                <input type="number" class="form-control" id="input-deposit" placeholder="100000"
+                                <label for="input-money"  data-i18n="inputMoney"></label>
+                                <input type="number" class="form-control" id="input-money" placeholder="100000"
                                  min="0" max="99999999" required autofocus>
                                 <div class="invalid-feedback" data-i18n="error.required"></div>
                             </div>
@@ -107,7 +107,7 @@
                     "event": "register",
                     "params": {
                         "date": $("#input-date").val(),
-                        "deposit": $("#input-deposit").val()
+                        "money": $("#input-money").val()
                     }
                 }));
             });
@@ -115,7 +115,7 @@
             $("#clear").click(function(event) {
                 $("#deposit-form").remove('was-validated');
                 $("#input-date").val("");
-                $("#input-deposit").val("");
+                $("#input-money").val("");
             });
         });
 
