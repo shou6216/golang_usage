@@ -14,18 +14,24 @@
             <div class="col-sm-4 col-md-3">
                 <div class="card mx-2">
                     <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <form>
+                            <div class="form-group">
+                                <label for="inputDate" data-i18n="inputDate"></label>
+                                <input type="date" class="form-control" id="inputDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputDeposit"  data-i18n="inputDeposit"></label>
+                                <input type="number" class="form-control" id="inputDeposit" placeholder="100000">
+                            </div>
+                            <button type="button" class="btn btn-success btn-block" data-i18n="register"></button>
+                        </form>
                     </div>
                 </div>
             </div>
             <div class="col-sm-8 col-md-9">
                 <div class="card mx-2">
                     <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <canvas id="chart"></canvas>
                     </div>
                 </div>
             </div>
@@ -36,6 +42,7 @@
         delete window.module;
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <script type="text/javascript" src="js/i18next.min.js"></script>
     <script type="text/javascript" src="js/jquery-i18next.min.js"></script>
     <script type="text/javascript" src="js/i18nextXHRBackend.min.js"></script>
@@ -52,6 +59,69 @@
         }, function (err, t) {
             jqueryI18next.init(i18next, $);
             $('[data-i18n]').localize();
+        });
+
+        const context = jQuery("#chart");
+        const chart = new Chart(context, {
+            type: 'line',
+            data: {
+                labels: ['12/21', '1/21', '2/21', '3/21', '4/21', '5/21', '6/20'],
+                datasets: [{
+                    label: '2021年前半',
+                    data: [300000, 280000, 200000, 100000, 150000, 200000, 170000],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                },
+                {
+                    label: '2020年後半',
+                    data: [200000, 180000, 100000, 100000, 50000, 30000, 100000],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
         });
 
         let ws = new WebSocket("ws://localhost:" + global.backendPort + "/web/app/events");

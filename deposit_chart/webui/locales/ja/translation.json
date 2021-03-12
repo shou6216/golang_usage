@@ -1,4 +1,6 @@
 {
   "title": "預金残高",
-  "register": "登録"
+  "register": "登録",
+  "inputDate": "日付",
+  "inputDeposit": "金額" 
 }
