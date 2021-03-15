@@ -1,0 +1,10 @@
+{
+  "title": "預金残高",
+  "register": "登録",
+  "clear": "クリア",
+  "inputDate": "日付",
+  "inputMoney": "金額" ,
+  "error": {
+    "required": "正しい値を入力してください"
+  }
+}

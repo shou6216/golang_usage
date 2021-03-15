@@ -1,0 +1,161 @@
+<html>
+<head>
+    <!-- 手抜き CDNとインライン使いたいから -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https:;">
+    <title data-i18n="title"></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <nav class="navbar navbar-light bg-light mb-3">
+            <span class="navbar-brand mb-0 h1" data-i18n="title"></span>
+        </nav>
+        <div class="row">
+            <div class="col-sm-4 col-md-3">
+                <div class="card mx-2">
+                    <div class="card-body">
+                        <form id="deposit-form">
+                            <div class="form-group">
+                                <label for="input-date" data-i18n="inputDate"></label>
+                                <input type="date" class="form-control" id="input-date" min="2010-01-01" max="2100-01-01" required>
+                                <div class="invalid-feedback" data-i18n="error.required"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-money"  data-i18n="inputMoney"></label>
+                                <input type="number" class="form-control" id="input-money" placeholder="100000"
+                                 min="0" max="99999999" required autofocus>
+                                <div class="invalid-feedback" data-i18n="error.required"></div>
+                            </div>
+                            <button id="register" type="button" class="btn btn-success btn-block" data-i18n="register"></button>
+                            <button id="clear" type="button" class="btn btn-outline-primary btn-block" data-i18n="clear"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-md-9">
+                <div class="card mx-2">
+                    <div class="card-body">
+                        <canvas id="chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        window.nodeRequire = require;
+        delete window.module;
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/i18next.min.js"></script>
+    <script type="text/javascript" src="js/jquery-i18next.min.js"></script>
+    <script type="text/javascript" src="js/i18nextXHRBackend.min.js"></script>
+    <script type="text/javascript">
+        const lang = "ja";
+        i18next.use(i18nextXHRBackend).init({
+            backend: {
+                loadPath: "locales/{{lng}}/translation.json"
+            },
+            debug: false,
+            defaultLng: lang,
+            fallbackLng: false,
+            lng: lang,
+        }, function (err, t) {
+            jqueryI18next.init(i18next, $);
+            $("[data-i18n]").localize();
+        });
+
+        let ws = new WebSocket("ws://localhost:" + global.backendPort + "/web/app/events");
+        ws.onmessage = (message) => {
+            let obj = JSON.parse(message.data);
+            
+            // event name
+            console.log(obj.event);
+
+            // event data
+            console.log(obj.AtrNameInFrontend);
+        }
+
+        $(function(){
+            const now = moment();
+            $("#input-date").val(now.format("YYYY-MM-DD"));
+
+            const context = jQuery("#chart");
+            const chart = new Chart(context, {
+                type: "line",
+                data: createLineChartData(),
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            $("#register").click(function() {
+                const form = $("#deposit-form")[0];
+                form.classList.add('was-validated');
+                if (form.checkValidity() === false){
+                    return;
+                }
+
+                ws.send(JSON.stringify({
+                    "event": "register",
+                    "params": {
+                        "date": $("#input-date").val(),
+                        "money": parseInt($("#input-money").val())
+                    }
+                }));
+            });
+
+            $("#clear").click(function(event) {
+                $("#deposit-form").remove('was-validated');
+                $("#input-date").val("");
+                $("#input-money").val("");
+            });
+        });
+
+        function createLineChartData() {
+            const labels = createLabels();
+            return {
+                labels: labels,
+                datasets: createDataSets(labels)
+            }
+        }
+
+        function createLabels() {
+            // 閏年のある年で1年間の日付を作成
+            let start = moment("2020-01-01");
+            const end = moment(start).endOf("year");
+
+            let labels = [];
+            while(start.unix() <= end.unix()) {
+                labels.push(start.format("MM/DD"));
+                start.add(1, "days");
+            }
+
+            return labels;
+        }
+
+        function createDataSets(labels) {
+            return [2019, 2020, 2021].map(year => {
+                const rgb = `rgba(
+                        ${Math.floor(Math.random() * Math.floor(255))},
+                        ${Math.floor(Math.random() * Math.floor(255))},
+                        ${Math.floor(Math.random() * Math.floor(255))}`;
+                return {
+                    label: `${year}年`,
+                    data: labels.map(label => Math.floor(Math.random() * Math.floor(100000))),
+                    backgroundColor: `${rgb},0.2)`,
+                    borderColor: `${rgb},1)`,
+                    borderWidth: 1
+                }
+            });
+        }
+    </script>
+</body>
+</html>
