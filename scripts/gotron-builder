@@ -1,0 +1,1 @@
+./scripts/gotron-builder-amd64-win.exe --go=cmd/deposit_chart --app=web

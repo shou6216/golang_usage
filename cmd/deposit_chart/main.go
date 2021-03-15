@@ -26,7 +26,7 @@ func main() {
 		panic(err)
 	}
 
-	window.OpenDevTools()
+	// 	window.OpenDevTools()
 
 	window.On(&gotron.Event{Event: "register"}, func(bin []byte) {
 		var event RegisterEvent
