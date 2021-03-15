@@ -1,7 +1,7 @@
 package main
 
 import (
-	"bytes"
+	"encoding/json"
 	"fmt"
 
 	"github.com/Equanox/gotron"
@@ -29,22 +29,30 @@ func main() {
 	window.OpenDevTools()
 
 	window.On(&gotron.Event{Event: "register"}, func(bin []byte) {
-		// ここに処理を書いていく
-		// fmt.Println(bin)
-		b := []byte(bin)
-		buf := bytes.NewBuffer(b)
-		fmt.Println(buf)
+		var event RegisterEvent
+		if err := json.Unmarshal(bin, &event); err != nil {
+			panic(err)
+		}
+		fmt.Println(event)
 
-		window.Send(&CustomEvent{
-			Event:           &gotron.Event{Event: "event-name"},
-			CustomAttribute: "Hello World!",
-		})
+		// window.Send(&CustomEvent{
+		// 	Event:           &gotron.Event{Event: "event-name"},
+		// 	CustomAttribute: "Hello World!",
+		// })
 	})
 
 	<-done
 }
 
-type CustomEvent struct {
-	*gotron.Event
-	CustomAttribute string `json:"AtrNameInFrontend"`
+type RegisterEvent struct {
+	Event  string `json:"event"`
+	Params struct {
+		Date  string `json:"date"`
+		Money int    `json:"money"`
+	} `json:"params"`
+}
+
+type Params struct {
+	Date  string `json:"date"`
+	Money int    `json:"money"`
 }
