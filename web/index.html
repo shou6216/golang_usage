@@ -67,14 +67,15 @@
         });
 
         let ws = new WebSocket("ws://localhost:" + global.backendPort + "/web/app/events");
-        ws.onmessage = (message) => {
-            let obj = JSON.parse(message.data);
-            
-            // event name
-            console.log(obj.event);
+        ws.onopen = () => {  
+            ws.send(JSON.stringify({
+                "event": "init"
+            }));
+        }
 
-            // event data
-            console.log(obj.AtrNameInFrontend);
+        ws.onmessage = (message) => {
+            let data = JSON.parse(message.data);            
+            console.log(data.deposits);
         }
 
         $(function(){

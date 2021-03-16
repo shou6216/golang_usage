@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
+	"golang_usage/internal/db"
 
 	"github.com/Equanox/gotron"
 )
@@ -19,7 +19,7 @@ func main() {
 	// ElectronのフロントJavaScriptでrequireしているためhtmlでloadすると競合する
 	// ここでフロント側のrequireを無効にする
 	// ここでfalseにするとjavascript側のglobalが定義されないのでfalseはなし
-	//window.WindowOptions.WebPreferences.NodeIntegration = false
+	// window.WindowOptions.WebPreferences.NodeIntegration = false
 
 	done, err := window.Start()
 	if err != nil {
@@ -28,26 +28,41 @@ func main() {
 
 	// 	window.OpenDevTools()
 
+	window.On(&gotron.Event{Event: "init"}, func(bin []byte) {
+		deposits := db.FindAll()
+		window.Send(&RegisterResponse{
+			Event:    &gotron.Event{Event: "init"},
+			Deposits: deposits,
+		})
+	})
+
 	window.On(&gotron.Event{Event: "register"}, func(bin []byte) {
-		var event RegisterEvent
-		if err := json.Unmarshal(bin, &event); err != nil {
+		var request RegisterRequest
+		if err := json.Unmarshal(bin, &request); err != nil {
 			panic(err)
 		}
-		fmt.Println(event)
 
-		// window.Send(&CustomEvent{
-		// 	Event:           &gotron.Event{Event: "event-name"},
-		// 	CustomAttribute: "Hello World!",
-		// })
+		db.SaveOrUpdate(request.Params.Date, request.Params.Money)
+
+		deposits := db.FindAll()
+		window.Send(&RegisterResponse{
+			Event:    &gotron.Event{Event: "register"},
+			Deposits: deposits,
+		})
 	})
 
 	<-done
 }
 
-type RegisterEvent struct {
+type RegisterRequest struct {
 	Event  string `json:"event"`
 	Params struct {
 		Date  string `json:"date"`
 		Money int    `json:"money"`
 	} `json:"params"`
+}
+
+type RegisterResponse struct {
+	*gotron.Event `json:"event"`
+	Deposits      []db.Deposit `json:"deposits"`
 }

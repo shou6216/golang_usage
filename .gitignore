@@ -7,6 +7,7 @@
 *.dylib
 *.gotron*
 dist/
+assets/*.sql
 
 # Test binary, built with `go test -c`
 *.test
