@@ -29,11 +29,7 @@ func main() {
 	// 	window.OpenDevTools()
 
 	window.On(&gotron.Event{Event: "init"}, func(bin []byte) {
-		deposits := db.FindAll()
-		window.Send(&RegisterResponse{
-			Event:    &gotron.Event{Event: "init"},
-			Deposits: deposits,
-		})
+		sendResponse(window)
 	})
 
 	window.On(&gotron.Event{Event: "register"}, func(bin []byte) {
@@ -43,15 +39,18 @@ func main() {
 		}
 
 		db.SaveOrUpdate(request.Params.Date, request.Params.Money)
-
-		deposits := db.FindAll()
-		window.Send(&RegisterResponse{
-			Event:    &gotron.Event{Event: "register"},
-			Deposits: deposits,
-		})
+		sendResponse(window)
 	})
 
 	<-done
+}
+
+func sendResponse(window *gotron.BrowserWindow) {
+	deposits := db.FindAll()
+	window.Send(&DepositResponse{
+		Event:    &gotron.Event{Event: "register"},
+		Deposits: deposits,
+	})
 }
 
 type RegisterRequest struct {
@@ -62,7 +61,15 @@ type RegisterRequest struct {
 	} `json:"params"`
 }
 
-type RegisterResponse struct {
+type DepositResponse struct {
 	*gotron.Event `json:"event"`
 	Deposits      []db.Deposit `json:"deposits"`
 }
+
+// return {
+// 	label: `${year}年`,
+// 	data: labels.map(label => Math.floor(Math.random() * Math.floor(100000))),
+// 	backgroundColor: `${rgb},0.2)`,
+// 	borderColor: `${rgb},1)`,
+// 	borderWidth: 1
+// }
