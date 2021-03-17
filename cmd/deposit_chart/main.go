@@ -3,8 +3,10 @@ package main
 import (
 	"encoding/json"
 	"golang_usage/internal/db"
+	"time"
 
 	"github.com/Equanox/gotron"
+	"github.com/wesovilabs/koazee"
 )
 
 func main() {
@@ -47,9 +49,27 @@ func main() {
 
 func sendResponse(window *gotron.BrowserWindow, eventName string) {
 	deposits := db.FindAll()
+	// 年別に集計
+	year2deposits, _ := koazee.StreamOf(deposits).GroupBy(func(deposit db.Deposit) int {
+		date, _ := time.Parse("2006-01-02", deposit.Date)
+		return date.Year()
+	})
+
+	var lineChartDatas []LineChartData
+	iter := year2deposits.MapRange()
+	for iter.Next() {
+		lineChartDatas = append(lineChartDatas, LineChartData{
+			Label:           "aaa",
+			Data:            []int{1, 2, 3, 4, 5},
+			Backgroundcolor: []int{1, 2, 3, 4, 5},
+			Bordercolor:     []int{1, 2, 3, 4, 5},
+			Borderwidth:     1,
+		})
+	}
+
 	window.Send(&DepositResponse{
-		Event:    &gotron.Event{Event: eventName},
-		Deposits: deposits,
+		Event:          &gotron.Event{Event: eventName},
+		LineChartDatas: lineChartDatas,
 	})
 }
 
@@ -63,13 +83,13 @@ type RegisterRequest struct {
 
 type DepositResponse struct {
 	*gotron.Event
-	Deposits []db.Deposit `json:"deposits"`
+	LineChartDatas []LineChartData `json:"lineChartDatas"`
 }
 
-// return {
-// 	label: `${year}年`,
-// 	data: labels.map(label => Math.floor(Math.random() * Math.floor(100000))),
-// 	backgroundColor: `${rgb},0.2)`,
-// 	borderColor: `${rgb},1)`,
-// 	borderWidth: 1
-// }
+type LineChartData struct {
+	Label           string `json:"label"`
+	Data            []int  `json:"data"`
+	Backgroundcolor []int  `json:"backgroundColor"`
+	Bordercolor     []int  `json:"borderColor"`
+	Borderwidth     int    `json:"borderWidth"`
+}
