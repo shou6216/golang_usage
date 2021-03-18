@@ -55,16 +55,18 @@ func sendResponse(window *gotron.BrowserWindow, eventName string) {
 		return date.Year()
 	})
 
-	var lineChartDatas []LineChartData
-	iter := year2deposits.MapRange()
-	for iter.Next() {
-		lineChartDatas = append(lineChartDatas, LineChartData{
-			Label:           "aaa",
-			Data:            []int{1, 2, 3, 4, 5},
-			Backgroundcolor: []int{1, 2, 3, 4, 5},
-			Bordercolor:     []int{1, 2, 3, 4, 5},
-			Borderwidth:     1,
-		})
+	lineChartDatas := make([]LineChartData, 0)
+	if year2deposits.IsValid() {
+		iter := year2deposits.MapRange()
+		for iter.Next() {
+			lineChartDatas = append(lineChartDatas, LineChartData{
+				Label:           "aaa",
+				Data:            []int{1, 2, 3, 4, 5},
+				Backgroundcolor: []int{1, 2, 3, 4, 5},
+				Bordercolor:     []int{1, 2, 3, 4, 5},
+				Borderwidth:     1,
+			})
+		}
 	}
 
 	window.Send(&DepositResponse{
