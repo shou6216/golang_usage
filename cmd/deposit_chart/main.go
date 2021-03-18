@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"golang_usage/internal/db"
 	"time"
 
@@ -60,7 +61,7 @@ func sendResponse(window *gotron.BrowserWindow, eventName string) {
 		iter := year2deposits.MapRange()
 		for iter.Next() {
 			lineChartDatas = append(lineChartDatas, LineChartData{
-				Label:           "aaa",
+				Label:           fmt.Sprintf("%d年", iter.Key().Int()),
 				Data:            []int{1, 2, 3, 4, 5},
 				Backgroundcolor: []int{1, 2, 3, 4, 5},
 				Bordercolor:     []int{1, 2, 3, 4, 5},
