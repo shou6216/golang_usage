@@ -66,36 +66,27 @@
             $("[data-i18n]").localize();
         });
 
+        let chart;
+
         let ws = new WebSocket("ws://localhost:" + global.backendPort + "/web/app/events");
-        ws.onopen = () => {  
+        ws.onopen = () => {
             ws.send(JSON.stringify({
                 "event": "init"
             }));
         }
 
         ws.onmessage = (message) => {
-            let data = JSON.parse(message.data);            
-            console.log(data);
+            const data = JSON.parse(message.data);  
+            if (chart) {
+                chart.destroy();
+            } 
+
+            drawLineChart(data.lineChartData);
         }
 
         $(function(){
             const now = moment();
             $("#input-date").val(now.format("YYYY-MM-DD"));
-
-            const context = jQuery("#chart");
-            const chart = new Chart(context, {
-                type: "line",
-                data: createLineChartData(),
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
-            });
 
             $("#register").click(function() {
                 const form = $("#deposit-form")[0];
@@ -119,6 +110,23 @@
                 $("#input-money").val("");
             });
         });
+
+        function drawLineChart(data) {
+            const context = $("#chart");
+            chart = new Chart(context, {
+                type: "line",
+                data: data,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
 
         function createLineChartData() {
             const labels = createLabels();
