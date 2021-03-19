@@ -56,13 +56,27 @@ func sendResponse(window *gotron.BrowserWindow, eventName string) {
 		return date.Year()
 	})
 
+	labels := createLabels()
 	lineChartDataSets := make([]LineChartDataSet, 0)
 	if year2deposits.IsValid() {
 		iter := year2deposits.MapRange()
 		for iter.Next() {
+			date2deposit := make(map[string]int)
+			for _, deposit := range iter.Value().Interface().([]db.Deposit) {
+				date, _ := time.Parse("2006-01-02", deposit.Date)
+				date2deposit[date.Format("01/02")] = deposit.Money
+			}
+
+			data := make([]int, len(labels))
+			for i, label := range labels {
+				if money, ok := date2deposit[label]; ok {
+					data[i] = money
+				}
+			}
+
 			lineChartDataSets = append(lineChartDataSets, LineChartDataSet{
 				Label:           fmt.Sprintf("%d年", iter.Key().Int()),
-				Data:            []int{1, 2, 3, 4, 5},
+				Data:            data,
 				Backgroundcolor: []int{1, 2, 3, 4, 5},
 				Bordercolor:     []int{1, 2, 3, 4, 5},
 				Borderwidth:     1,
@@ -70,7 +84,6 @@ func sendResponse(window *gotron.BrowserWindow, eventName string) {
 		}
 	}
 
-	labels := createLabels()
 	window.Send(&DepositResponse{
 		Event: &gotron.Event{Event: eventName},
 		LineChartData: struct {
@@ -89,7 +102,7 @@ func createLabels() []string {
 	end := start.AddDate(1, 0, 0)
 
 	labels := make([]string, 0)
-	for start.Unix() <= end.Unix() {
+	for start.Unix() < end.Unix() {
 		labels = append(labels, start.Format("01/02"))
 		start = start.AddDate(0, 0, 1)
 	}
