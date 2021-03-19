@@ -56,11 +56,11 @@ func sendResponse(window *gotron.BrowserWindow, eventName string) {
 		return date.Year()
 	})
 
-	lineChartDatas := make([]LineChartData, 0)
+	lineChartDataSets := make([]LineChartDataSet, 0)
 	if year2deposits.IsValid() {
 		iter := year2deposits.MapRange()
 		for iter.Next() {
-			lineChartDatas = append(lineChartDatas, LineChartData{
+			lineChartDataSets = append(lineChartDataSets, LineChartDataSet{
 				Label:           fmt.Sprintf("%d年", iter.Key().Int()),
 				Data:            []int{1, 2, 3, 4, 5},
 				Backgroundcolor: []int{1, 2, 3, 4, 5},
@@ -71,8 +71,14 @@ func sendResponse(window *gotron.BrowserWindow, eventName string) {
 	}
 
 	window.Send(&DepositResponse{
-		Event:          &gotron.Event{Event: eventName},
-		LineChartDatas: lineChartDatas,
+		Event: &gotron.Event{Event: eventName},
+		LineChartData: struct {
+			Labels   []string           `json:"labels"`
+			DataSets []LineChartDataSet `json:"datasets"`
+		}{
+			[]string{"1", "2", "3", "4", "5"},
+			lineChartDataSets,
+		},
 	})
 }
 
@@ -86,10 +92,13 @@ type RegisterRequest struct {
 
 type DepositResponse struct {
 	*gotron.Event
-	LineChartDatas []LineChartData `json:"lineChartDatas"`
+	LineChartData struct {
+		Labels   []string           `json:"labels"`
+		DataSets []LineChartDataSet `json:"datasets"`
+	} `json:"lineChartData"`
 }
 
-type LineChartData struct {
+type LineChartDataSet struct {
 	Label           string `json:"label"`
 	Data            []int  `json:"data"`
 	Backgroundcolor []int  `json:"backgroundColor"`
