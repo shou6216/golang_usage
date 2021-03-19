@@ -70,16 +70,31 @@ func sendResponse(window *gotron.BrowserWindow, eventName string) {
 		}
 	}
 
+	labels := createLabels()
 	window.Send(&DepositResponse{
 		Event: &gotron.Event{Event: eventName},
 		LineChartData: struct {
 			Labels   []string           `json:"labels"`
 			DataSets []LineChartDataSet `json:"datasets"`
 		}{
-			[]string{"1", "2", "3", "4", "5"},
+			labels,
 			lineChartDataSets,
 		},
 	})
+}
+
+func createLabels() []string {
+	// 閏年のある年で1年間の日付を作成
+	start := time.Date(2020, 1, 1, 0, 0, 0, 0, time.Local)
+	end := start.AddDate(1, 0, 0)
+
+	labels := make([]string, 0)
+	for start.Unix() <= end.Unix() {
+		labels = append(labels, start.Format("01/02"))
+		start = start.AddDate(0, 0, 1)
+	}
+
+	return labels
 }
 
 type RegisterRequest struct {

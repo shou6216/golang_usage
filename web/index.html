@@ -128,28 +128,6 @@
             });
         }
 
-        function createLineChartData() {
-            const labels = createLabels();
-            return {
-                labels: labels,
-                datasets: createDataSets(labels)
-            }
-        }
-
-        function createLabels() {
-            // 閏年のある年で1年間の日付を作成
-            let start = moment("2020-01-01");
-            const end = moment(start).endOf("year");
-
-            let labels = [];
-            while(start.unix() <= end.unix()) {
-                labels.push(start.format("MM/DD"));
-                start.add(1, "days");
-            }
-
-            return labels;
-        }
-
         function createDataSets(labels) {
             return [2019, 2020, 2021].map(year => {
                 const rgb = `rgba(
