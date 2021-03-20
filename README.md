@@ -164,4 +164,5 @@
 
 ### ストレージ
 
-//TODO
+
+* https://qvault.io/2019/10/21/golang-constant-maps-slices/

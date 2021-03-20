@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"golang_usage/internal/color"
 	"golang_usage/internal/db"
 	"time"
 
@@ -61,6 +62,8 @@ func sendResponse(window *gotron.BrowserWindow, eventName string) {
 	lineChartDataSets := make([]LineChartDataSet, 0)
 	if year2deposits.IsValid() {
 		iter := year2deposits.MapRange()
+		colorIndex := 0
+		colors := color.GetRgbas()
 		for iter.Next() {
 			date2deposit := make(map[string]int)
 			for _, deposit := range iter.Value().Interface().([]db.Deposit) {
@@ -76,11 +79,16 @@ func sendResponse(window *gotron.BrowserWindow, eventName string) {
 				}
 			}
 
+			bordercolor := colors[colorIndex]
+			if colorIndex < len(colors) {
+				colorIndex++
+			}
+
 			lineChartDataSets = append(lineChartDataSets, LineChartDataSet{
 				Label:           fmt.Sprintf("%d年", iter.Key().Int()),
 				Data:            data,
-				Backgroundcolor: []int{1, 2, 3, 4, 5},
-				Bordercolor:     []int{1, 2, 3, 4, 5},
+				Bordercolor:     bordercolor,
+				Backgroundcolor: "rgba(0,0,0,0)",
 				Borderwidth:     1,
 				SpanGaps:        true,
 			})
@@ -132,8 +140,8 @@ type DepositResponse struct {
 type LineChartDataSet struct {
 	Label           string     `json:"label"`
 	Data            []null.Int `json:"data"`
-	Backgroundcolor []int      `json:"backgroundColor"`
-	Bordercolor     []int      `json:"borderColor"`
+	Backgroundcolor string     `json:"backgroundColor"`
+	Bordercolor     string     `json:"borderColor"`
 	Borderwidth     int        `json:"borderWidth"`
 	SpanGaps        bool       `json:"spanGaps"`
 }
