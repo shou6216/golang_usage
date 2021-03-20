@@ -4,11 +4,14 @@ import (
 	// ビルド時にコンパイルの必要があるので_使ってimport
 	"database/sql"
 	"log"
+	"os"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
-const DbPath = "assets/usage.sql"
+const DbDir = "assets"
+const FileName = "usage.sql"
+const DbPath = DbDir + "/" + FileName
 
 var DbConnection *sql.DB
 
@@ -19,6 +22,10 @@ type Deposit struct {
 
 func init() {
 	log.Println("init sqlite start")
+
+	if _, err := os.Stat(DbDir); os.IsNotExist(err) {
+		os.Mkdir(DbDir, 0777)
+	}
 
 	DbConnection, _ := sql.Open("sqlite3", DbPath)
 	defer DbConnection.Close()
