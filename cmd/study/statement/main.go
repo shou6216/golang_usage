@@ -1,4 +1,4 @@
-package syntax
+package main
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func Statement() {
+func main() {
 	// for
 	sum := 1
 	for sum < 10 {
@@ -17,7 +17,7 @@ func Statement() {
 	}
 	fmt.Println(sum)
 
-	// 無限ループ
+	// 無限ループ(while構文はない)
 	//for {
 	//
 	//}

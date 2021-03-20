@@ -1,4 +1,4 @@
-package syntax
+package main
 
 import (
 	"html/template"
@@ -14,12 +14,12 @@ type Page3 struct {
 }
 
 func (p *Page3) save() error {
-	filename := "text/" + p.Title + ".txt"
+	filename := "assets/text/" + p.Title + ".txt"
 	return ioutil.WriteFile(filename, p.Body, 0600)
 }
 
 func loadPage(title string) (*Page3, error) {
-	filename := "./text/" + title + ".txt"
+	filename := "assets/text/" + title + ".txt"
 	body, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -27,7 +27,7 @@ func loadPage(title string) (*Page3, error) {
 	return &Page3{Title: title, Body: body}, nil
 }
 
-var templates = template.Must(template.ParseFiles("view/edit.html", "view/view.html"))
+var templates = template.Must(template.ParseFiles("web/study/edit.html", "web/study/view.html"))
 
 func renderTemplate(w http.ResponseWriter, tmpl string, p *Page3) {
 	err := templates.ExecuteTemplate(w, tmpl+".html", p)
@@ -79,7 +79,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 	}
 }
 
-func Web() {
+func main() {
 	// ルーティングの設定
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))

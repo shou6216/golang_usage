@@ -1,4 +1,4 @@
-package syntax
+package main
 
 import (
 	"fmt"
@@ -120,7 +120,7 @@ func (c *Counter) Value(key string) int {
 	return c.v[key]
 }
 
-func Goroutine() {
+func main() {
 	var wg sync.WaitGroup
 	// 1つのgroutineがあることを設定する
 	wg.Add(1)

@@ -1,4 +1,4 @@
-package syntax
+package main
 
 import (
 	"fmt"
@@ -20,20 +20,21 @@ func init() {
 	fmt.Println("init")
 }
 
-/*
-これでコメントもいける
-*/
-
 func bazz() {
 	fmt.Println("bazz world")
 }
 
-func Define() {
+// go runを実行すると最初に呼ばれる関数
+/*
+ これでコメントもいける
+*/
+func main() {
 	bazz()
-	//カンマ区切りで複数文字列表示
+	// カンマ区切りで複数文字列表示
 	fmt.Println("Hello world", "hoge hoge", time.Now())
 	fmt.Println(user.Current())
 
+	// 変数定義
 	var i int = 1
 	var f64 float64 = 1.2
 	var s string = "aaaa"
@@ -42,7 +43,7 @@ func Define() {
 	var tt, ff = true, false
 	fmt.Println(i, f64, s, t, f, tt, ff)
 
-	// 関数内でしかショートの定義はできない
+	// 簡略変数定義(この定義は関数内でしか使えない)
 	xi := 1
 	xi = 2
 	xf64 := 1.2
@@ -84,6 +85,7 @@ func Define() {
 	var b4 [2]int = [2]int{300, 400}
 	fmt.Println(b4)
 
+	// スライス
 	n5 := []int{1, 2, 3, 4, 5, 6}
 	fmt.Println(n5)
 	fmt.Println(n5[2])
@@ -133,21 +135,25 @@ func Define() {
 	fmt.Println(n8)
 	fmt.Println(string(n8))
 
+	// 戻り値は複数可能
 	r1, r2 := add(10, 20)
 	fmt.Println(r1, r2)
 
 	r3 := cal(100, 2)
 	fmt.Println(r3)
 
+	// 無名関数
 	f19 := func(x int) {
 		fmt.Println("inner func", x)
 	}
 	f19(1)
 
+	// 無名関数即時実行
 	func(x int) {
 		fmt.Println("inner func2", x)
 	}(2)
 
+	// 戻り値関数
 	counter20 := incrementGenerator()
 	fmt.Println(counter20())
 	fmt.Println(counter20())

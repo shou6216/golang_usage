@@ -1,4 +1,4 @@
-package syntax
+package main
 
 import (
 	"context"
@@ -40,7 +40,7 @@ type ConfigList struct {
 var Config ConfigList
 
 func init() {
-	cfg, _ := ini.Load("config.ini")
+	cfg, _ := ini.Load("config/study.ini")
 	Config = ConfigList{
 		// MustXXXは必須。
 		Port:      cfg.Section("web").Key("port").MustInt(),
@@ -49,7 +49,7 @@ func init() {
 	}
 }
 
-func ThirdParty() {
+func main() {
 	// go get golang.org/x/sync/semaphore
 	ctx76 := context.TODO()
 	go longProcess2(ctx76)

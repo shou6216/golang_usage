@@ -1,4 +1,4 @@
-package syntax
+package main
 
 import (
 	// ビルド時にコンパイルの必要があるので_使ってimport
@@ -16,7 +16,7 @@ type Person3 struct {
 	Age  int
 }
 
-func Database() {
+func main() {
 	// https://github.com/mattn/go-sqlite3
 	// https://github.com/mattn/go-sqlite3#installation
 	// gcc必要

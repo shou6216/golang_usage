@@ -1,4 +1,4 @@
-package syntax
+package main
 
 import "fmt"
 
@@ -119,7 +119,8 @@ func (v Vertex) String() string {
 	return fmt.Sprintf("X is %v! Y is %v!\n", v.x, v.y)
 }
 
-func Struct() {
+func main() {
+	// struct作成
 	v39 := Vertex{3, 4}
 	v39.Scale(10)
 	fmt.Println(v39.Area())

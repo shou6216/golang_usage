@@ -1,4 +1,4 @@
-package lib
+package study_lib
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package syntax
+package main
 
 import (
 	"encoding/json"
@@ -25,7 +25,7 @@ func (p Person2) MarshalJSON() ([]byte, error) {
 	return v, err
 }
 
-func Network() {
+func main() {
 	base, _ := url.Parse("http://example.com")
 	reference73, _ := url.Parse("/test/a=1&b=2")
 	endpoint73 := base.ResolveReference(reference73).String()

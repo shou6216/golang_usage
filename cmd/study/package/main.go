@@ -1,15 +1,15 @@
-package syntax
+package main
 
 import (
 	"fmt"
-	"golang_usage/lib"
+	lib "golang_usage/internal/study-lib"
 
 	"github.com/markcheno/go-quote"
 	"github.com/markcheno/go-talib"
 	// talib "github.com/markcheno/go-talib" import名を定義できる
 )
 
-func Package() {
+func main() {
 	s60 := []int{1, 2, 3, 4, 5}
 	v60 := lib.Average(s60)
 	fmt.Println(v60)

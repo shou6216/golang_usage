@@ -1,4 +1,4 @@
-package syntax
+package main
 
 import (
 	"context"
@@ -31,7 +31,7 @@ func longProcess(ctx context.Context, ch chan string) {
 	ch <- "result"
 }
 
-func Lib() {
+func main() {
 	t67 := time.Now()
 	fmt.Println(t67)
 	fmt.Println(t67.Format(time.RFC3339))
@@ -100,7 +100,7 @@ CTXLOOP:
 	}
 	fmt.Println("#############################")
 
-	content72, err72 := ioutil.ReadFile(("main.go"))
+	content72, err72 := ioutil.ReadFile(("README.md"))
 	if err72 != nil {
 		log.Fatalln(err72)
 	}
