@@ -156,6 +156,8 @@
   * https://www.i18next.com/overview/getting-started
 * koazee
   * https://github.com/wesovilabs/koazee
+* guregu/null
+  * https://qiita.com/isao_e_dev/items/55a9ad66f00ef031ac6c
 ### 画面構成
 
 //TODO

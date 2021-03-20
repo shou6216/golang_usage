@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/Equanox/gotron"
+	"github.com/guregu/null"
 	"github.com/wesovilabs/koazee"
 )
 
@@ -67,10 +68,11 @@ func sendResponse(window *gotron.BrowserWindow, eventName string) {
 				date2deposit[date.Format("01/02")] = deposit.Money
 			}
 
-			data := make([]int, len(labels))
+			// label分のデータを作成
+			data := make([]null.Int, len(labels))
 			for i, label := range labels {
 				if money, ok := date2deposit[label]; ok {
-					data[i] = money
+					data[i] = null.NewInt(int64(money), true)
 				}
 			}
 
@@ -80,6 +82,7 @@ func sendResponse(window *gotron.BrowserWindow, eventName string) {
 				Backgroundcolor: []int{1, 2, 3, 4, 5},
 				Bordercolor:     []int{1, 2, 3, 4, 5},
 				Borderwidth:     1,
+				SpanGaps:        true,
 			})
 		}
 	}
@@ -127,9 +130,10 @@ type DepositResponse struct {
 }
 
 type LineChartDataSet struct {
-	Label           string `json:"label"`
-	Data            []int  `json:"data"`
-	Backgroundcolor []int  `json:"backgroundColor"`
-	Bordercolor     []int  `json:"borderColor"`
-	Borderwidth     int    `json:"borderWidth"`
+	Label           string     `json:"label"`
+	Data            []null.Int `json:"data"`
+	Backgroundcolor []int      `json:"backgroundColor"`
+	Bordercolor     []int      `json:"borderColor"`
+	Borderwidth     int        `json:"borderWidth"`
+	SpanGaps        bool       `json:"spanGaps"`
 }
