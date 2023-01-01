@@ -62,8 +62,6 @@ func sendResponse(window *gotron.BrowserWindow, eventName string) {
 	lineChartDataSets := make([]LineChartDataSet, 0)
 	if year2deposits.IsValid() {
 		iter := year2deposits.MapRange()
-		colorIndex := 0
-		colors := color.GetRgbas()
 		for iter.Next() {
 			date2deposit := make(map[string]int)
 			for _, deposit := range iter.Value().Interface().([]db.Deposit) {
@@ -79,15 +77,11 @@ func sendResponse(window *gotron.BrowserWindow, eventName string) {
 				}
 			}
 
-			bordercolor := colors[colorIndex]
-			if colorIndex < len(colors) {
-				colorIndex++
-			}
-
+			year := iter.Key().Int()
 			lineChartDataSets = append(lineChartDataSets, LineChartDataSet{
-				Label:           fmt.Sprintf("%d年", iter.Key().Int()),
+				Label:           fmt.Sprintf("%d年", year),
 				Data:            data,
-				Bordercolor:     bordercolor,
+				Bordercolor:     color.GetRgbaByYear(year),
 				Backgroundcolor: "rgba(0,0,0,0)",
 				Borderwidth:     1,
 				SpanGaps:        true,
